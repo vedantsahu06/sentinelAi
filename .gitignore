@@ -1,0 +1,109 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS Files
+
+.DS_Store
+Thumbs.db
+
+# Logs
+
+logs/
+*.log
+
+# Testing
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type Checking
+
+.mypy_cache/
+
+# Ruff
+
+.ruff_cache/
+
+# Pyright
+
+.pyright/
+
+# Build Files
+
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# LangGraph / LangSmith
+
+.langgraph_api/
+.langsmith/
+
+# Temporary Files
+
+tmp/
+temp/
+
+# SQLite
+
+*.db
+*.sqlite3
+
+# Generated Reports
+
+reports/
+exports/
+
+# Docker
+
+docker-data/
+
+# Secrets
+
+secrets/
+credentials.json
+service-account.json
+
+# Local Config
+
+config.local.py
+
+# Node (for future frontend)
+
+node_modules/
+.next/
+dist/
+
+# Misc
+
+*.swp
+*.swo
+*.bak
+*.tmp
