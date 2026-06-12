@@ -1,5 +1,6 @@
-def get_logs():
-    return [
-        "GET /users?email=test@example.com took 2400ms",
-        "GET /users?email=abc@example.com took 2200ms"
-    ]
+def get_logs(service_name: str, limit: int = 100):
+    """
+    Fetches recent logs for a given service.
+    """
+    # TODO: Integrate with Datadog/Splunk/CloudWatch API
+    raise NotImplementedError("Log fetching requires integration with an external logging provider (e.g., Datadog). Currently mocked out.")

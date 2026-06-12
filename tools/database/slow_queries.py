@@ -1,7 +1,6 @@
-def get_slow_queries():
-    return [
-        {
-            "query": "SELECT * FROM users WHERE email=?",
-            "avg_time_ms": 2400
-        }
-    ]
+def get_slow_queries(limit: int = 5):
+    """
+    Fetches the slowest recent queries from the database.
+    """
+    # TODO: Connect to live database and run pg_stat_statements
+    raise NotImplementedError("Fetching slow queries requires pg_stat_statements enabled on a live database.")
