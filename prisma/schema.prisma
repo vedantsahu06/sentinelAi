@@ -1,0 +1,28 @@
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "sync"
+  recursive_type_depth = 5
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Incidents {
+  id          String   @id @default(uuid())
+  type        String
+  serviceName String
+  rawLogs     String?  @db.Text
+  createdAt   DateTime @default(now())
+}
+
+model IncidentMemories {
+  id         String   @id @default(uuid())
+  incidentId String
+  rootCause  String   @db.Text
+  resolution String   @db.Text
+  outcome    String
+  timestamp  DateTime @default(now())
+  embedding  Unsupported("vector(384)")?
+}

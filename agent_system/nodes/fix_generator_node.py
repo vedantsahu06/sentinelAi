@@ -14,6 +14,7 @@ def fix_generator_node(state: SentinelState):
     evidence = state.get("evidence", "")
 
     incident = state.get("incident", {})
+    incident_id = incident.get("id", "incident-id-missing")
     incident_type = incident.get("type", "unknown")
     logs = state.get("logs", [])
 
@@ -41,7 +42,7 @@ def fix_generator_node(state: SentinelState):
 
         # Attempt to write to memory
         try:
-            write_memory(incident_type, logs, root_cause, fix_desc)
+            write_memory(incident_id, incident_type, logs, root_cause, fix_desc)
         except NotImplementedError as e:
             print(f"Skipping memory write: {e}")
 
