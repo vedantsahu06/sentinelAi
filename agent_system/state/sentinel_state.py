@@ -1,13 +1,17 @@
-from typing import TypedDict
+from typing import TypedDict, Any, List
 
-class SentinelState(TypedDict):
-    incident: dict
-
-    logs: list
-    slow_queries: list
-    index_analysis: dict
-
+class SentinelState(TypedDict, total=False):
+    incident_id: str
+    raw_logs: str
+    parsed_logs: List[dict]
+    incident_type: str
+    severity: str
+    service_name: str
+    similar_incidents: List[dict]
+    retrieved_memories: List[dict]
     root_cause: str
-    confidence: float
-
-    fix: dict
+    recommendations: List[dict]
+    confidence_score: float
+    human_feedback: dict
+    final_resolution: dict
+    memory_written: bool

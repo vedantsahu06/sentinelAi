@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("ENGINEER")
+  createdAt DateTime @default(now())
+
+  feedback  Feedback[]
+}
+
+model Incidents {
+  id             String   @id @default(uuid())
+  title          String?
+  type           String
+  severity       String
+  serviceName    String
+  rawLogs        String?  @db.Text
+  status         String   @default("OPEN")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  agentRuns      AgentRuns[]
+  memories       IncidentMemories[]
+  resolutions    Resolutions[]
+  embeddings     IncidentEmbeddings[]
+}
+
+model IncidentMemories {
+  id           String   @id @default(uuid())
+  incidentId   String
+  rootCause    String   @db.Text
+  outcome      String
+  severity     String
+  timestamp    DateTime @default(now())
+
+  incident     Incidents @relation(fields: [incidentId], references: [id])
+}
+
+model Recommendations {
+  id             String   @id @default(uuid())
+  agentRunId     String
+  description    String   @db.Text
+  type           String   // e.g. "fix", "investigation"
+  confidence     String
+  createdAt      DateTime @default(now())
+
+  agentRun       AgentRuns @relation(fields: [agentRunId], references: [id])
+  resolutions    Resolutions[]
+}
+
+model Resolutions {
+  id               String   @id @default(uuid())
+  incidentId       String
+  recommendationId String?
+  description      String   @db.Text
+  outcome          String   // e.g. "SUCCESS", "FAILURE"
+  verified         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  incident         Incidents       @relation(fields: [incidentId], references: [id])
+  recommendation   Recommendations? @relation(fields: [recommendationId], references: [id])
+  feedbacks        Feedback[]
+}
+
+model Feedback {
+  id             String   @id @default(uuid())
+  resolutionId   String
+  userId         String
+  accepted       Boolean
+  comments       String?  @db.Text
+  createdAt      DateTime @default(now())
+
+  resolution     Resolutions @relation(fields: [resolutionId], references: [id])
+  user           Users       @relation(fields: [userId], references: [id])
+}
+
+model AgentRuns {
+  id               String   @id @default(uuid())
+  incidentId       String
+  status           String
+  confidenceScore  Float?
+  createdAt        DateTime @default(now())
+  completedAt      DateTime?
+
+  incident         Incidents         @relation(fields: [incidentId], references: [id])
+  recommendations  Recommendations[]
+}
+
+model IncidentEmbeddings {
+  id         String   @id @default(uuid())
+  incidentId String
+  // This represents pgvector usage - in real prisma it might be unsupported or raw SQL setup
+  embedding  Unsupported("vector(1536)")?
+
+  incident   Incidents @relation(fields: [incidentId], references: [id])
+}
